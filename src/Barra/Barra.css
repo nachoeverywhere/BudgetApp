@@ -1,0 +1,15 @@
+.dropdown-toggle,
+.dropdown-item {
+  cursor: pointer;
+}
+
+img {
+  max-height: 50px;
+  padding: 5px 5px;
+
+    border: 1px solid transparent;
+    border-radius: 50%;
+    background-image: linear-gradient(180deg, #c82517 0%, #971000 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
