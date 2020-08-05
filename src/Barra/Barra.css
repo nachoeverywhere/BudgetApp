@@ -3,13 +3,35 @@
   cursor: pointer;
 }
 
-img {
-  max-height: 50px;
-  padding: 5px 5px;
+#logo{
+  margin-left: 5px;
+}
+#nav {
+  background-color: rgb(116, 110, 128) !important;
+}
 
+#dropdown {
+  background-color: transparent;
+  border: transparent;
+}
+
+#profile {
+  margin-left: 10px;
+  height: 100%;
+  padding: 2px 2px;
     border: 1px solid transparent;
     border-radius: 50%;
-    background-image: linear-gradient(180deg, #c82517 0%, #971000 100%);
+    background-image: linear-gradient(180deg, rgb(114, 111, 111) 0%, #faf8f8 100%);
     background-origin: border-box;
     background-clip: padding-box, border-box;
+}
+
+svg {
+  color: rgb(183, 186, 196);
+}
+
+.icon {
+  height: 25px;
+  width: 25px;
+  margin-left: 10px;
 }
