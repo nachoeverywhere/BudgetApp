@@ -8,7 +8,8 @@ import {
   FormGroup,
   FormLabel,
 } from 'react-bootstrap';
-import './registro.css';
+import './Registro.css';
+import './FrederickatheGreat-Regular.ttf';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -18,7 +19,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 
-const registro = () => {
+const Registro = () => {
     
     const [email, elEmail] = useState('');
     const [password, elPassword] = useState('');
@@ -54,9 +55,9 @@ const registro = () => {
 
     <div class="row d-flex justify-content-center mt-4">
       <div class="col-12 d-flex justify-content-center subContenedor">
-        <Form>
+        <Form id="loginForm">
           <Form.Group controlId="formBasicEmail">
-            <h4>Únete!</h4>
+            <h2>Únete!</h2>
             <span>
               <FontAwesomeIcon icon={faEnvelope} /> Email
             </span>
@@ -101,4 +102,4 @@ const registro = () => {
   );
 }
 
-export default registro;
+export default Registro;
