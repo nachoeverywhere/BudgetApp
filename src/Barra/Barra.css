@@ -16,6 +16,7 @@
 }
 
 #profile {
+ 
   margin-left: 10px;
   height: 100%;
   padding: 2px 2px;
@@ -30,8 +31,19 @@ svg {
   color: rgb(183, 186, 196);
 }
 
+span svg{
+  color: rgb(132, 148, 201);
+}
+
 .icon {
   height: 25px;
   width: 25px;
   margin-left: 10px;
+}
+#saludo {
+  text-decoration: none;
+  color: rgb(183, 186, 196);
+}
+#saludo:hover {
+  color: white;
 }

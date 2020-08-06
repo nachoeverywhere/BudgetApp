@@ -1,14 +1,14 @@
 import React from 'react';
-import favicon from 'public\favicon.png';
 import './App.css';
+import Barra from './Barra/Barra'
+import Registro from './Registro/temp'
 
 const App = ()  => {
   return (
-    <div className="App">
-      <header className="App-header">
-       
-      </header>
-    </div>
+    <>
+      <Barra />
+      <Registro />
+    </>
   );
 }
 

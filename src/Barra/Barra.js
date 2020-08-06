@@ -4,7 +4,8 @@ import {
   Nav,
   Form,
   FormControl,
-  Button
+  Button,
+  NavDropdown,
 } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
 import './Barra.css';
@@ -31,11 +32,11 @@ const Barra = () => {
   // AL REFRESCAR SE EJECUTA. CONSULTAR
   // function salir() {
   //   //
-  //   localStorage.removeItem('Token');
-  //   // Agregar el routing, sino no se van a ver actualizado los cambios.
+  //   ;
+  //   // Agregar el routinlocalStorage.removeItem('Token'), sino no se van a ver actualizado los cambios.
   // }
 
-  // Esto tiene que estar en una clase Authenticator o algo por el estilo, no es prolijo que este en el navbar...
+  // Esto tiene que estar en una clase Authenticator o algo por el estilo, es cualca que este en el navbar...
   const usuarioLogueado = () => {
     return localStorage.getItem('Token') !== null ? true : false;
   };
@@ -60,90 +61,93 @@ const Barra = () => {
       });
   }
 
-  const manejarSelect = (eventKey) => alert(`Selecciono: ${eventKey}`);
   return (
-    <Navbar bg="dark" fluid="true" variant="dark" id="nav">
-      <Navbar.Brand href="#home">
-        <img
-          id="logo"
-          src={logo}
-          width="158"
-          height="38"
-          className="d-inline-block align-top"
-          alt="React Bootstrap logo"
-        />
-      </Navbar.Brand>
-      <Nav className="mr-auto" onSelect={manejarSelect}>
-        <Nav.Item>
-          <Nav.Link eventKey="1">Lista de gastos</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="2">Alta de gasto</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="3">Estadísticas generales</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="4">Gastos por rubro</Nav.Link>
-        </Nav.Item>
-      </Nav>
-
-      {!usuarioLogueado() ? (
-        <Form inline>
-          <FontAwesomeIcon icon={faEnvelope} />
-          <FormControl
-            autoFocus
-            className=" mr-sm-2 ml-2 mr-2"
-            type="email"
-            value={usuario}
-            name="usuario"
-            onChange={(e) => elEmail(e.target.value)}
+    <>
+      <Navbar
+        collapseOnSelect
+        expand="lg"
+        bg="dark"
+        fluid="true"
+        variant="dark"
+        id="nav"
+      >
+        <Navbar.Brand href="#home">
+          <img
+            id="logo"
+            src={logo}
+            width="158"
+            height="38"
+            className="d-inline-block align-top"
+            alt="React Bootstrap logo"
           />
-          <FontAwesomeIcon icon={faKey} />
-          <FormControl
-            inline
-            className=" mr-sm-2 ml-2"
-            value={password}
-            onChange={(e) => elPassword(e.target.value)}
-            type="password"
-            name="password"
-          />
-          <Button
-            className="mr-sm-2 ml-1"
-            disabled={!validateForm()}
-            type="submit"
-            variant={!validateForm() ? 'outline-light' : 'primary'}
-            onClick={manejarEnvio}
-          >
-            <FontAwesomeIcon icon={faSignInAlt} /> Ingresar
-          </Button>
-        </Form>
-      ) : (
-        <Dropdown>
-          <Dropdown.Toggle id="dropdown">
-            Bienvenido
-            <img
-              id="profile"
-              src={user}
-              width="40"
-              height="40"
-              className="d-inline-block align-top"
-              alt="Foto perfil"
-            />
-          </Dropdown.Toggle>
-
-          <Dropdown.Menu>
-            <Dropdown.Item eventKey="5">
-              <FontAwesomeIcon class="icon" icon={faUserTie} /> Mi Perfil
-            </Dropdown.Item>
-            <Dropdown.Divider />
-            <Dropdown.Item eventKey="6">
-              <FontAwesomeIcon class="icon" icon={faSignOutAlt} /> Salir
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      )}
-    </Navbar>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link>Lista de gastos</Nav.Link>
+            <Nav.Link>Alta de gasto</Nav.Link>
+            <Nav.Link>Estadísticas generales</Nav.Link>
+            <Nav.Link>Gastos por rubro</Nav.Link>
+          </Nav>
+          {!usuarioLogueado() ? (
+            <Form inline id="collasible-nav-dropdown">
+              <FontAwesomeIcon icon={faEnvelope} />
+              <FormControl
+                autoFocus
+                className=" mr-sm-2 ml-2 mr-2"
+                type="email"
+                value={usuario}
+                name="usuario"
+                onChange={(e) => elEmail(e.target.value)}
+              />
+              <FontAwesomeIcon icon={faKey} />
+              <FormControl
+                inline
+                className=" mr-sm-2 ml-2"
+                value={password}
+                onChange={(e) => elPassword(e.target.value)}
+                type="password"
+                name="password"
+              />
+              <Button
+                className="mr-sm-2 ml-1"
+                disabled={!validateForm()}
+                type="submit"
+                variant={!validateForm() ? 'outline-light' : 'primary'}
+                onClick={manejarEnvio}
+              >
+                <FontAwesomeIcon icon={faSignInAlt} /> Ingresar
+              </Button>
+            </Form>
+          ) : (
+            <NavDropdown
+              class="float-right"
+              title={
+                <div class="d-inline align-top">
+                  <span id="saludo">Bienvenido</span>  
+                  <img
+                    id="profile"
+                    src={user}
+                    width="40"
+                    height="40"
+                    alt="Foto perfil"
+                  />
+                </div>
+              }
+              id="collasible-nav-dropdown"
+            >
+              <NavDropdown.Item>
+                <FontAwesomeIcon class="icon" icon={faUserTie} /> Mi Perfil
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item>
+                <FontAwesomeIcon class="icon" icon={faSignOutAlt} /> Salir
+              </NavDropdown.Item>
+            </NavDropdown>
+          )}
+        </Navbar.Collapse>
+      </Navbar>
+    </>
   );
 };
 
