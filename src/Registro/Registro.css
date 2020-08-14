@@ -15,7 +15,7 @@
     background-image: url(./clipart112274.png);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain;
+    background-size: contain; 
 }
 
 @font-face {
@@ -27,3 +27,28 @@
   h2 {
       font-family: 'Titulos';
   }
+
+#password, #email {
+    background-color: transparent;
+    border-color: black;
+  }
+
+
+  #password:focus, #email:focus {
+    background-color: rgba(255, 255, 255, 0.541);
+    border-color: black;
+    outline:none;
+    
+  }
+  
+
+
+  .iconoBoton {
+      color: rgb(132, 148, 201);
+      height: 25px;
+      width: 25px;
+      margin-right: 5px;
+      font-weight: 600;
+  }
+  
+  

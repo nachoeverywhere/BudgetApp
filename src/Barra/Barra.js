@@ -7,7 +7,6 @@ import {
   Button,
   NavDropdown,
 } from 'react-bootstrap';
-import Dropdown from 'react-bootstrap/Dropdown';
 import './Barra.css';
 import logo from './logo.png';
 import user from './user.png';
@@ -20,6 +19,7 @@ import {
   faKey,
   faSignInAlt,
 } from '@fortawesome/free-solid-svg-icons';
+import Salir from '../Salir/Salir'
 
 const Barra = () => {
   const [usuario, elEmail] = useState('');
@@ -29,15 +29,9 @@ const Barra = () => {
     return usuario.length > 0 && password.length > 0;
   }
 
-  // AL REFRESCAR SE EJECUTA. CONSULTAR
-  // function salir() {
-  //   //
-  //   ;
-  //   // Agregar el routinlocalStorage.removeItem('Token'), sino no se van a ver actualizado los cambios.
-  // }
 
   // Esto tiene que estar en una clase Authenticator o algo por el estilo, es cualca que este en el navbar...
-  const usuarioLogueado = () => {
+  let usuarioLogueado = () => {
     return localStorage.getItem('Token') !== null ? true : false;
   };
 
@@ -55,6 +49,7 @@ const Barra = () => {
         const items = data;
         console.log(items);
         localStorage.setItem('Token', JSON.stringify(items));
+        window.location.reload(true);
       })
       .catch(function (error) {
         console.log('Ha ocurrido un error', error.message);
@@ -84,11 +79,11 @@ const Barra = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link>Lista de gastos</Nav.Link>
-            <Nav.Link>Alta de gasto</Nav.Link>
+            <Nav.Link href="/listar">Lista de gastos</Nav.Link>
+            <Nav.Link href="/alta">Alta de gasto</Nav.Link>
             <Nav.Link>Estadísticas generales</Nav.Link>
             <Nav.Link>Gastos por rubro</Nav.Link>
-          </Nav>
+          </Nav> 
           {!usuarioLogueado() ? (
             <Form inline id="collasible-nav-dropdown">
               <FontAwesomeIcon icon={faEnvelope} />
@@ -121,9 +116,9 @@ const Barra = () => {
             </Form>
           ) : (
             <NavDropdown
-              class="float-right"
+              className="float-right"
               title={
-                <div class="d-inline align-top">
+                <div className="d-inline align-top">
                   <span id="saludo">Bienvenido</span>  
                   <img
                     id="profile"
@@ -137,12 +132,10 @@ const Barra = () => {
               id="collasible-nav-dropdown"
             >
               <NavDropdown.Item>
-                <FontAwesomeIcon class="icon" icon={faUserTie} /> Mi Perfil
+                <FontAwesomeIcon className="icon" icon={faUserTie} /> Mi Perfil
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item>
-                <FontAwesomeIcon class="icon" icon={faSignOutAlt} /> Salir
-              </NavDropdown.Item>
+              <Salir/>
             </NavDropdown>
           )}
         </Navbar.Collapse>

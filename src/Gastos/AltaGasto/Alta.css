@@ -1,0 +1,11 @@
+.subContenedorAlta {
+
+ background-image: url('./fondoFormulario.png');
+ background-repeat: no-repeat;
+ background-position: center;
+ background-size: 500px 500px;
+}
+
+#altaForm {
+    margin-top: 50px;
+}
