@@ -19,42 +19,43 @@ import {
   faKey,
   faSignInAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import Salir from '../Salir/Salir'
+import Salir from '../Salir/Salir';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Barra = () => {
   const [usuario, elEmail] = useState('');
   const [password, elPassword] = useState('');
+  toast.configure();
 
   function validateForm() {
     return usuario.length > 0 && password.length > 0;
   }
 
-
   // Esto tiene que estar en una clase Authenticator o algo por el estilo, es cualca que este en el navbar...
   let usuarioLogueado = () => {
-    return localStorage.getItem('Token') !== null ? true : false;
+    return sessionStorage.getItem('Token') !== null ? true : false;
   };
 
   function manejarEnvio(event) {
     event.preventDefault();
-    fetch('http://xpense.develotion.com/login.php', {
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    var raw = JSON.stringify({ usuario: usuario, password: password });
+debugger;
+    var requestOptions = {
       method: 'POST',
-      body: usuario,
-      password,
-    })
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        const items = data;
-        console.log(items);
-        localStorage.setItem('Token', JSON.stringify(items));
-        window.location.reload(true);
-      })
-      .catch(function (error) {
-        console.log('Ha ocurrido un error', error.message);
-      });
-  }
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+debugger;
+    fetch('http://xpense.develotion.com/login.php', requestOptions)
+      .then((response) => response.json())
+      .then((result) => {sessionStorage.setItem('Token', JSON.stringify(result)); window.location.reload(true);})
+      .catch((error) => {console.log('error', error)});
+  } 
+
+
 
   return (
     <>
@@ -83,7 +84,7 @@ const Barra = () => {
             <Nav.Link href="/alta">Alta de gasto</Nav.Link>
             <Nav.Link>Estadísticas generales</Nav.Link>
             <Nav.Link>Gastos por rubro</Nav.Link>
-          </Nav> 
+          </Nav>
           {!usuarioLogueado() ? (
             <Form inline id="collasible-nav-dropdown">
               <FontAwesomeIcon icon={faEnvelope} />
@@ -119,7 +120,7 @@ const Barra = () => {
               className="float-right"
               title={
                 <div className="d-inline align-top">
-                  <span id="saludo">Bienvenido</span>  
+                  <span id="saludo">Bienvenido</span>
                   <img
                     id="profile"
                     src={user}
@@ -135,7 +136,7 @@ const Barra = () => {
                 <FontAwesomeIcon className="icon" icon={faUserTie} /> Mi Perfil
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <Salir/>
+              <Salir />
             </NavDropdown>
           )}
         </Navbar.Collapse>

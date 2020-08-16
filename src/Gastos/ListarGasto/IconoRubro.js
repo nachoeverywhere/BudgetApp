@@ -18,26 +18,26 @@ const IconoRubro = (Rubro) => {
 
   switch (Rubro) {
     case 1:
-      setIcono('faHome');
+      setIcono(faHome);
       break;
     case 2:
-        setIcono('faCarSide');
+        setIcono(faCarSide);
       break;
     case 3:
-        setIcono('faGamepad');
+        setIcono(faGamepad);
       break;
     case 4:
-        setIcono('faPlane');
+        setIcono(faPlane);
       break;
     case 5:
-        setIcono('faSoap');
+        setIcono(faSoap);
       break;
     case 6:
-        setIcono('faUtensils');
+        setIcono(faUtensils);
       break;
 
     default:
-      setIcono('faCashRegister');
+      setIcono(faCashRegister);
       break;
   }
 

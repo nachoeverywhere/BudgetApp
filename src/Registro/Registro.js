@@ -9,7 +9,7 @@ import {
   faKey,
   faPaperPlane,
 } from '@fortawesome/free-solid-svg-icons';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 const Registro = () => {
@@ -35,7 +35,7 @@ const Registro = () => {
       .then(function (data) {
         // const items = data;
         // console.log(items);
-        // localStorage.setItem('Token', JSON.stringify(items));
+        // sessionStorage.setItem('Token', JSON.stringify(items));
         if(data.codigo === 200){toast.success("Registrado con exito. Ingresa!", {position: toast.POSITION.BOTTOM_RIGHT})}
         else{toast.error(data.mensaje, {position: toast.POSITION.BOTTOM_RIGHT})};
       })

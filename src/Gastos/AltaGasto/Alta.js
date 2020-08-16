@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Form,
   Button,
@@ -19,33 +19,37 @@ import { toast } from 'react-toastify';
 const Alta = () => {
   const [nombre, elNombre] = useState('');
   const [monto, elMonto] = useState('');
-  const [rubro, elRubro] = useState('');
+  const [rubro, setRubro] = useState('');
   const [rubros, setRubros] = useState([]);
-  const token = JSON.parse(localStorage.getItem('Token'));
+  const token = JSON.parse(sessionStorage.getItem('Token'));
   let url = 'http://xpense.develotion.com/gastos.php?id=';
   let callUrl = url.concat(token.id);
   toast.configure();
 
-  fetch('http://xpense.develotion.com/rubros.php', {
+  useEffect(() => { 
+    fetch('http://xpense.develotion.com/rubros.php', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      apiKey: '9f6f6a2b2748bf24821914720b1152a9',
+      apiKey: token.apiKey,
     },
   })
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {     
-        setRubros(data.rubros)  
+        setRubros(data.rubros);
+        setRubro(rubros[0].id);  
     })
     .catch(function (error) {
       console.log('Ha ocurrido un error', error.message);
-    });
+    })}, []);
 
   function validateForm() {
     return nombre.length > 0 && monto.length > 0 && parseInt(monto) > 0;
   }
+
+  const handleRubro = ({ target: { value } }) => setRubro(value);
 
   function manejarAlta(event) {
     event.preventDefault();
@@ -113,13 +117,13 @@ const Alta = () => {
                 Categoria
               </Form.Label>
               <Col sm={10}>
-                <Form.Control as="select">
+                <select as="select" value={rubro} onChange={handleRubro} class="form-control">
                 {rubros.map(({ id, nombre}, index) => (
                   <option key={index} value={id}>
                   {nombre}
                   </option>
                 ))}
-                </Form.Control>
+                </select>
               </Col>
             </Form.Group>
 
@@ -138,6 +142,7 @@ const Alta = () => {
               </Col>
             </Form.Group>
           </Form>
+
         </div>
       </div>
     </>
