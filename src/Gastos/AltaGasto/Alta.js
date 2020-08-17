@@ -13,19 +13,54 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faMoneyBillAlt,
 } from '@fortawesome/free-solid-svg-icons';
+import{withRouter} from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+// NO INDENTAR -- Problemas con rubro.
 
-const Alta = () => {
+const Alta = ({history}) => {
+
+  // Control de sesion
+  useEffect(() => {
+    if (!sessionStorage.getItem('Token')) {
+      debugger;
+      history.push('/');
+    }
+  }, []);
+
+
+  const token = JSON.parse(sessionStorage.getItem('Token'));
+ 
+
+  // Variables
   const [nombre, elNombre] = useState('');
   const [monto, elMonto] = useState('');
   const [rubro, setRubro] = useState('');
   const [rubros, setRubros] = useState([]);
-  const token = JSON.parse(sessionStorage.getItem('Token'));
   let url = 'http://xpense.develotion.com/gastos.php?id=';
   let callUrl = url.concat(token.id);
   toast.configure();
 
+  // APEX CHART 
+  var options = {
+    series: [44, 55, 41, 17, 15],
+    chart: {
+    type: 'donut',
+  },
+  responsive: [{
+    breakpoint: 480,
+    options: {
+      chart: {
+        width: 200
+      },
+      legend: {
+        position: 'bottom'
+      }
+    }
+  }]
+  };
+
+  // Llamada a rubro
   useEffect(() => { 
     fetch('http://xpense.develotion.com/rubros.php', {
     method: 'GET',
@@ -46,23 +81,42 @@ const Alta = () => {
     })}, []);
 
   function validateForm() {
+
     return nombre.length > 0 && monto.length > 0 && parseInt(monto) > 0;
   }
+ 
+  // Fijar rubro
+  // Guarda! NO indentar...
 
-  const handleRubro = ({ target: { value } }) => setRubro(value);
+  const handleRubro = ({ target: { value } }) => {
+    
+    return setRubro(value);
+  } 
 
+  // Alta de gasto
   function manejarAlta(event) {
     event.preventDefault();
+    debugger;
     fetch(callUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', apiKey: token.apiKey },
-      body: JSON.stringify({ nombre: nombre, monto: monto, idUsuario: token.idUsuario,  rubro: rubro }),
+      body: JSON.stringify({ nombre: nombre, monto: monto, idUsuario: token.id,  idRubro: rubro }),
     })
       .then(function (response) {
-        toast.success("Agregado con exito!", {position: toast.POSITION.BOTTOM_RIGHT})
+
         return response.json();
-      }).catch(function (error) {
+
+      })
+      .then((data) => {
+
+        if(data.codigo === 200) {toast.success(data.mensaje, { position: toast.POSITION.BOTTOM_RIGHT });}
+        else{ toast.error(data.mensaje, {position: toast.POSITION.BOTTOM_RIGHT})}
+
+      })
+      .catch(function (error) {
+
         console.log('Ha ocurrido un error', error.message);
+
         if(error){
           toast.error(error.mensaje, {position: toast.POSITION.BOTTOM_RIGHT})
         }
@@ -149,4 +203,4 @@ const Alta = () => {
   );
 };
 
-export default Alta;
+export default withRouter(Alta);

@@ -13,15 +13,20 @@ import {
   faCashRegister,
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import Chart from 'react-apexcharts';
+import{withRouter} from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const ListarGastos = () => {
+const ListarGastos = ({history}) => {
+
+  //Control de sesion
+  const token = JSON.parse(sessionStorage.getItem('Token'));
+  if(token === undefined || token === null ){history.push('/')}
+
+  // Variables
   const [gastos, setGastos] = useState([]);
   const [gastosRubro, setGastosRubro] = useState([]);
   const [comprasRubro, setcomprasRubro] = useState([]);
   const [trigger, setTrigger] = useState('');
-  const token = JSON.parse(sessionStorage.getItem('Token'));
   const baseUrl = 'http://xpense.develotion.com/gastos.php';
   let url = 'http://xpense.develotion.com/gastos.php?id=';
   let callUrl = url.concat(token.id);
@@ -47,6 +52,8 @@ const ListarGastos = () => {
       });
   }, []);
 
+  
+
   // DELETE COMPRA
   function borrarGasto(event, id) {
     event.preventDefault();
@@ -66,8 +73,13 @@ const ListarGastos = () => {
       .then((response) => response.json())
       .then((data) => {
         debugger;
-        toast.success(data.mensaje, { position: toast.POSITION.BOTTOM_RIGHT });
-        setGastos(gastos.filter((x) => x.id !== id));
+        if(data.codigo === 200) {toast.success(data.mensaje, { position: toast.POSITION.BOTTOM_RIGHT });
+        let eliminado =  gastos.filter((x) => x.id !== id) 
+        debugger;
+        setGastos(eliminado);}
+        else{
+          toast.error(data.mensaje, { position: toast.POSITION.BOTTOM_RIGHT });
+        }
         debugger;
       })
       .catch(function (error) {
@@ -105,9 +117,13 @@ const ListarGastos = () => {
       gasto.total = resultado.total;
       debugger;
     });
-
+    // Pronto con fritas 🍟.
+    setcomprasRubro(rubrosUnicos);
     return rubrosUnicos;
   };
+
+
+
 
   // ICONOS!
   function IconoRubro(id) {
@@ -143,7 +159,9 @@ const ListarGastos = () => {
           ))}
         </ListGroup>
       </div>
-      <div></div>
+      <div>
+       
+      </div>
     </>
   ) : (
     <div>
@@ -151,4 +169,4 @@ const ListarGastos = () => {
     </div>
   );
 };
-export default ListarGastos;
+export default withRouter(ListarGastos);

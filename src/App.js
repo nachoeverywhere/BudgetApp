@@ -7,15 +7,12 @@ import ListarGasto from './Gastos/ListarGasto/ListarGasto';
 import { Switch, Route } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import{withRouter} from 'react-router-dom';
 
-const usuarioLogueado = () => {
-  return localStorage.getItem('Token') !== null ? true : false;
-};
 
 //<Route path="/" component={Login} exact />
 //<Route component={PageNotFound} />
 // {!usuarioLogueado() ? <Registro/> : ""}
-
 
 
 const App = ()  => {
@@ -35,4 +32,4 @@ const App = ()  => {
   );
 }
 
-export default App;
+export default withRouter(App);
