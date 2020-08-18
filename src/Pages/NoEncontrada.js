@@ -5,11 +5,8 @@ const NoEncontrada = () => {
 
 return(
 
-      
-            
-    
   
-    <div class="mainbox">
+    <div class="mainbox mt-5">
       <div class="err">4</div>
       <i class="far fa-question-circle fa-spin"></i>
       <div class="err2">4</div>

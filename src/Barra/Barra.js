@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Navbar,
   Nav,
@@ -23,8 +23,20 @@ import Salir from '../Salir/Salir';
 import { ToastContainer, toast } from 'react-toastify';
 
 const Barra = () => {
+
+
+  useEffect(() => {
+    sessionStorage.getItem('Token') ? setLogeo(true) : setLogeo(false);
+  }, [])
+
+
+  function UsuarioLogueado() {
+    sessionStorage.getItem('Token') ? setLogeo(true) : setLogeo(false);
+  }
+
   const [usuario, elEmail] = useState('');
   const [password, elPassword] = useState('');
+  const [usuarioLogueado, setLogeo] = useState();
   toast.configure();
 
   function validateForm() {
@@ -32,30 +44,30 @@ const Barra = () => {
   }
 
   // Esto tiene que estar en una clase Authenticator o algo por el estilo, es cualca que este en el navbar...
-  let usuarioLogueado = () => {
-    return sessionStorage.getItem('Token') !== null ? true : false;
-  };
 
   function manejarEnvio(event) {
     event.preventDefault();
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     var raw = JSON.stringify({ usuario: usuario, password: password });
-debugger;
+    debugger;
     var requestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
       redirect: 'follow',
     };
-debugger;
+    debugger;
     fetch('http://xpense.develotion.com/login.php', requestOptions)
       .then((response) => response.json())
-      .then((result) => {sessionStorage.setItem('Token', JSON.stringify(result)); window.location.reload(true);})
-      .catch((error) => {console.log('error', error)});
-  } 
-
-
+      .then((result) => {
+        sessionStorage.setItem('Token', JSON.stringify(result));
+        window.location.reload(true);
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
+  }
 
   return (
     <>
@@ -79,13 +91,19 @@ debugger;
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="/listar">Lista de gastos</Nav.Link>
-            <Nav.Link href="/alta">Alta de gasto</Nav.Link>
-            <Nav.Link href="/grafica">Estadísticas generales</Nav.Link>
-            <Nav.Link>Gastos por rubro</Nav.Link>
-          </Nav>
-          {!usuarioLogueado() ? (
+          {usuarioLogueado ? (
+            <Nav className="mr-auto">
+              <Nav.Link href="/listar">Lista de gastos</Nav.Link>
+              <Nav.Link href="/alta">Alta de gasto</Nav.Link>
+              <Nav.Link href="/grafica">Estadísticas generales</Nav.Link>
+              <Nav.Link>Gastos por rubro</Nav.Link>
+            </Nav>
+          ) : (
+            <Nav className="mr-auto">
+              <Nav.Link href="/">Registrate para acceder!</Nav.Link>
+            </Nav>
+          )}
+          {!usuarioLogueado ? (
             <Form inline id="collasible-nav-dropdown">
               <FontAwesomeIcon icon={faEnvelope} />
               <FormControl

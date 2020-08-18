@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ListGroup, Button } from 'react-bootstrap';
+import { ListGroup, Button, Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './ListarGasto.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //import IconoRubro from './IconoRubro';
 import {
@@ -13,14 +14,15 @@ import {
   faCashRegister,
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import{withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const ListarGastos = ({history}) => {
-
+const ListarGastos = ({ history }) => {
   //Control de sesion
   const token = JSON.parse(sessionStorage.getItem('Token'));
-  if(token === null ){history.push('/')}
+  if (token === null) {
+    history.push('/');
+  }
 
   // Variables
   const [gastos, setGastos] = useState([]);
@@ -41,6 +43,7 @@ const ListarGastos = ({history}) => {
     fetch(callUrl, requestOptions)
       .then((response) => response.json())
       .then((data) => {
+        debugger;
         data.gastos.length > 10
           ? setGastos(data.gastos.slice(-10))
           : setGastos(data.gastos);
@@ -50,8 +53,6 @@ const ListarGastos = ({history}) => {
         console.log('Ha ocurrido un error', error.message);
       });
   }, []);
-
-  
 
   // DELETE COMPRA
   function borrarGasto(event, id) {
@@ -72,11 +73,14 @@ const ListarGastos = ({history}) => {
       .then((response) => response.json())
       .then((data) => {
         debugger;
-        if(data.codigo === 200) {toast.success(data.mensaje, { position: toast.POSITION.BOTTOM_RIGHT });
-        let eliminado =  gastos.filter((x) => x.id !== id) 
-        debugger;
-        setGastos(eliminado);}
-        else{
+        if (data.codigo === 200) {
+          toast.success(data.mensaje, {
+            position: toast.POSITION.BOTTOM_RIGHT,
+          });
+          let eliminado = gastos.filter((x) => x.id !== id);
+          debugger;
+          setGastos(eliminado);
+        } else {
           toast.error(data.mensaje, { position: toast.POSITION.BOTTOM_RIGHT });
         }
         debugger;
@@ -91,17 +95,14 @@ const ListarGastos = ({history}) => {
   //FILTRAR GASTOS POR RUBRO OUT([{id, total, cantidad}])
 
   const comprasPorRubros = (array) => {
-    let rubrosUnicos = [
-      ...new Set(
-        array.map((gasto) => gasto.rubro))
-    ];
- debugger;
+    let rubrosUnicos = [...new Set(array.map((gasto) => gasto.rubro))];
+    debugger;
     rubrosUnicos = [
       ...new Set(
         rubrosUnicos.map((gasto) => ({ id: gasto, total: 0, cantidad: 0 }))
       ),
     ];
-  debugger;
+    debugger;
 
     rubrosUnicos.forEach(function (gasto) {
       //Filtro los gastos para ese rubro
@@ -127,9 +128,6 @@ const ListarGastos = ({history}) => {
     return rubrosUnicos;
   };
 
-
-
-
   // ICONOS!
   function IconoRubro(id) {
     switch (id) {
@@ -152,25 +150,52 @@ const ListarGastos = ({history}) => {
 
   return gastos.length > 0 ? (
     <>
-      <div>
-        <ListGroup variant="flush">
-          {gastos.map(({ id, nombre, monto, rubro }, index) => (
-            <ListGroup.Item key={index} value={id}>
-              <FontAwesomeIcon icon={IconoRubro(rubro)} /> ${monto} {nombre}{' '}
-              <Button variant="danger" onClick={(e) => borrarGasto(e, { id })}>
-                <FontAwesomeIcon icon={faTrashAlt} />
-              </Button>
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
+      <div class="row d-flex justify-content-center mt-4">
+        <div class="col-12 d-flex justify-content-center">
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th class="rubro">Rubro</th>
+                <th>Descripcion</th>
+                <th>Monto</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {gastos.map(({ id, nombre, monto, rubro }, index) => (
+                <tr key={index} value={id}>
+                  <td class="rubro">
+                    <FontAwesomeIcon icon={IconoRubro(rubro)} />
+                  </td>
+                  <td>{nombre}</td>
+                  <td>$ {monto}</td>
+                  <td>
+                    <Button
+                      variant="danger"
+                      onClick={(e) => borrarGasto(e, { id })}
+                    >
+                      <FontAwesomeIcon icon={faTrashAlt} />
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
       </div>
-      <div>
-       
-      </div>
+      <div></div>
     </>
   ) : (
-    <div>
-      <h1>No tienes gastos... has fallado el proposito de tu existencia.</h1>
+    <div class="site mt-5">
+      <div class="sketch">
+        <div class="bee-sketch red"></div>
+        <div class="bee-sketch blue"></div>
+      </div>
+
+      <h1>
+        No tienes gastos:
+        <small>Has fallado el proposito de tu existencia</small>
+      </h1>
     </div>
   );
 };

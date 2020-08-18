@@ -60,6 +60,7 @@ function Graph() {
       .then((data) => {
         setGastos(data.gastos);
         comprasPorRubros(data.gastos);
+        if(data.gastos.length === 0){ toast.error("No tienes gastos ingresados aun!", {position: toast.POSITION.TOP_CENTER}) }
       })
       .catch(function (error) {
         console.log('Ha ocurrido un error', error.message);

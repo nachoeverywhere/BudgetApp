@@ -1,5 +1,6 @@
 .mainbox {
-    background-color: #95c2de;
+    
+    background-color: transparent;
     margin: auto;
     height: 600px;
     width: 600px;
@@ -7,7 +8,7 @@
   }
   
     .err {
-      color: #ffffff;
+      color: #886e92;
       font-family: 'Nunito Sans', sans-serif;
       font-size: 11rem;
       position:absolute;
@@ -20,11 +21,11 @@
     font-size: 8.5rem;
     left: 42%;
     top: 15%;
-    color: #ffffff;
+    color: #886e92;
   }
   
    .err2 {
-      color: #ffffff;
+      color: #886e92;
       font-family: 'Nunito Sans', sans-serif;
       font-size: 11rem;
       position:absolute;
@@ -44,7 +45,7 @@
   
   a {
     text-decoration: none;
-    color: white;
+    color: #886e92;
   }
   
   a:hover {
