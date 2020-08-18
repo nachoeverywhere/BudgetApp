@@ -89,14 +89,13 @@ const Alta = ({history}) => {
   // Guarda! NO indentar...
 
   const handleRubro = ({ target: { value } }) => {
-    
-    return setRubro(value);
+    debugger;
+    setRubro(value);
   } 
 
   // Alta de gasto
   function manejarAlta(event) {
     event.preventDefault();
-    debugger;
     fetch(callUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', apiKey: token.apiKey },

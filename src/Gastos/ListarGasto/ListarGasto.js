@@ -20,7 +20,7 @@ const ListarGastos = ({history}) => {
 
   //Control de sesion
   const token = JSON.parse(sessionStorage.getItem('Token'));
-  if(token === undefined || token === null ){history.push('/')}
+  if(token === null ){history.push('/')}
 
   // Variables
   const [gastos, setGastos] = useState([]);
@@ -44,7 +44,6 @@ const ListarGastos = ({history}) => {
         data.gastos.length > 10
           ? setGastos(data.gastos.slice(-10))
           : setGastos(data.gastos);
-        debugger;
         comprasPorRubros(data.gastos);
       })
       .catch(function (error) {
@@ -94,13 +93,19 @@ const ListarGastos = ({history}) => {
   const comprasPorRubros = (array) => {
     let rubrosUnicos = [
       ...new Set(
-        array.map((gasto) => ({ id: gasto.id, total: 0, cantidad: 0 }))
+        array.map((gasto) => gasto.rubro))
+    ];
+ debugger;
+    rubrosUnicos = [
+      ...new Set(
+        rubrosUnicos.map((gasto) => ({ id: gasto, total: 0, cantidad: 0 }))
       ),
     ];
-    debugger;
+  debugger;
+
     rubrosUnicos.forEach(function (gasto) {
       //Filtro los gastos para ese rubro
-      let gastosFiltrados = array.filter((x) => x.id === gasto.id);
+      let gastosFiltrados = array.filter((x) => x.rubro === gasto.id);
       debugger;
       //Acumulo los totales y la cantidad
       var resultado = gastosFiltrados.reduce(

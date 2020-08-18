@@ -8,6 +8,7 @@ import { Switch, Route } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import{withRouter} from 'react-router-dom';
+import Graph from './Pages/Graph';
 
 
 //<Route path="/" component={Login} exact />
@@ -17,7 +18,6 @@ import{withRouter} from 'react-router-dom';
 
 const App = ()  => {
   toast.configure();
-  const notify = () => toast.info("Holanga", toast.POSITION.BOTTOM_RIGHT);
   return (
     <>
     
@@ -27,6 +27,7 @@ const App = ()  => {
       <Route path="/" component={Registro} exact />
       <Route path="/listar" component={ListarGasto} exact />
       <Route path="/alta" component={Alta} exact />
+      <Route path="/grafica" component={Graph} exact />
       </Switch>
     </>
   );
