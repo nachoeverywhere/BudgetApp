@@ -40,12 +40,12 @@ function Graph() {
     },
     {
       id: '0',
-      nombre: 'Otro',
+      nombre: 'Hogar',
     },
     {
         id: '7',
         nombre: 'Otro',
-      }
+    }
   ];
 
   // GET COMPRAS

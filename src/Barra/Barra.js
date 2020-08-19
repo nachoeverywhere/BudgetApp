@@ -79,7 +79,7 @@ const Barra = () => {
         variant="dark"
         id="nav"
       >
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/">
           <img
             id="logo"
             src={logo}
@@ -96,7 +96,6 @@ const Barra = () => {
               <Nav.Link href="/listar">Lista de gastos</Nav.Link>
               <Nav.Link href="/alta">Alta de gasto</Nav.Link>
               <Nav.Link href="/grafica">Estadísticas generales</Nav.Link>
-              <Nav.Link>Gastos por rubro</Nav.Link>
             </Nav>
           ) : (
             <Nav className="mr-auto">
